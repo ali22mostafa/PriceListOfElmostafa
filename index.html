@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شركة المصطفى للحوم</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+.specual{
+  background-color: yellow !important;
+  color: #000 !important;
+}
+    header {
+      background-color: #000;
+      color: yellow;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      animation: fadeInDown 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo  {
+      display: block;
+      margin: 10px auto;
+      max-width: 220px;
+      border-radius: 20px !important;
+      animation: bounceIn 1s ease-out, pulse 2s 2s ease-in-out infinite;
+      transform-origin: center;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    nav {
+      background-color: #222;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      gap: 1rem;
+      position: relative;
+      text-align: center !important;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .nav-toggle {
+      display: none;
+      cursor: pointer;
+      color: yellow;
+      background: #333;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .nav-toggle:hover {
+      transform: scale(1.1);
+      background-color: #444;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      perspective: 1000px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: #444;
+      border-radius: 10px;
+      white-space: nowrap;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-5px) rotateX(15deg);
+      box-shadow: 0 10px 20px rgba(255, 255, 0, 0.4);
+      background: #555;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: yellow;
+      border-radius: 0 0 10px 10px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    #searchInput {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      width: 250px;
+      max-width: 100%;
+      font-size: 20px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background-color: #333;
+      color: white;
+    }
+
+    #searchInput:focus {
+      outline: none;
+      box-shadow: 0 0 15px yellow, 0 0 30px rgba(255, 255, 0, 0.2);
+      transform: scale(1.05);
+      background-color: #444;
+    }
+
+    #searchInput::placeholder {
+      color: #aaa;
+      transition: all 0.3s ease;
+    }
+
+    #searchInput:focus::placeholder {
+      opacity: 0.5;
+      transform: translateY(-5px);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+
+    .product-box {
+      background-color: #1a1a1a;
+      border: 3px solid yellow;
+      border-radius: 15px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(30px) rotateX(10deg);
+      animation: fadeInUp 0.6s ease-out forwards;
+      animation-delay: calc(var(--order) * 0.1s);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-box:hover {
+      transform: translateY(-10px) rotateX(0deg);
+      box-shadow: 0 15px 30px rgba(255, 255, 0, 0.3);
+      border-color: #ffcc00;
+    }
+
+    .product-box h2 {
+      background-color: yellow;
+      color: black;
+      padding: 0.7rem;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-box h2:hover {
+      transform: scale(1.05) rotate(-1deg);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      background-color: #ffdb4d;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      border: 2px solid yellow;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform-style: preserve-3d;
+    }
+
+    .product-image:hover {
+      transform: scale(1.03) rotateY(5deg);
+      box-shadow: 0 8px 20px rgba(255, 255, 0, 0.4);
+      border-color: #ffcc00;
+    }
+
+    .product-item {
+      background-color: #000;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-item:hover {
+      transform: translateX(10px);
+      background-color: #222;
+    }
+
+    .product-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.2), transparent);
+      transition: all 0.6s ease;
+    }
+
+    .product-item:hover::before {
+      left: 100%;
+    }
+
+    .product-item span:last-child {
+      background-color: yellow;
+      color: black;
+      font-weight: bold;
+      border-radius: 10%;
+      padding: 0.4rem 0.7rem;
+      min-width: 40px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+    }
+
+    .product-item:hover span:last-child {
+      transform: scale(1.15) rotate(5deg);
+      background-color: #ffdb4d;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { 
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-10deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(5deg);
+      }
+      70% {
+        transform: scale(0.95) rotate(-2deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 0, 0.7);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(255, 255, 0, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
+      }
+    }
+
+    /* Highlight animation for search results */
+    .highlight {
+      animation: highlight 1.5s ease;
+    }
+
+    @keyframes highlight {
+      0% { 
+        background-color: yellow; 
+        color: black;
+        transform: scale(1.05);
+      }
+      50% {
+        box-shadow: 0 0 20px yellow;
+      }
+      100% { 
+        background-color: inherit; 
+        color: inherit;
+        transform: scale(1);
+      }
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Shake animation */
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+      }
+    }
+
+    /* Rotate animation */
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Slide in from sides */
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 0.5rem;
+        animation: slideInDown 0.5s ease-out;
+      }
+
+      .nav-links a {
+        width: 100%;
+        background: #333;
+        animation: fadeInLeft 0.5s ease-out;
+        animation-fill-mode: both;
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      nav {
+        flex-direction: row;
+        align-items:center;
+        justify-content: center;
+      }
+
+      nav input {
+        width: 100%;
+      }
+
+      .product-box {
+        padding: 0.8rem;
+      }
+
+      .product-box h2 {
+        font-size: 1rem;
+      }
+
+      .product-item {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+
+      .product-image {
+        height: 150px;
+      }
+      
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+  </style>
+  <style>
+  .whatsapp-float {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    background-color: #222222;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 20px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite, float 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .whatsapp-float:hover {
+    background-color: #222222;
+    transform: scale(1.05) rotateY(10deg);
+    animation: none;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+  }
+
+  .whatsapp-content {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .whatsapp-content:hover {
+    transform: scale(1.05);
+  }
+
+  .whatsapp-content img {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .whatsapp-float:hover .whatsapp-content img {
+    animation: shake 0.5s ease;
+  }
+
+  .whatsapp-content span {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  .whatsapp-float:hover .whatsapp-content span {
+    color: #25D366;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  }
+
+  @media (max-width: 480px) {
+    .whatsapp-float {
+      padding: 8px 12px;
+      animation: pulse 2s infinite;
+    }
+
+    .whatsapp-content span {
+      font-size: 18px;
+    }
+
+    .whatsapp-content img {
+      width: 28px;
+      height: 28px;
+      margin-left: 8px;
+    }
+  }
+</style>
+<style>
+.alert-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+  animation-fill-mode: forwards;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.admin{
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.alert-toast::before {
+  content: "✓";
+  font-size: 20px;
+}
+</style>
+<style>
+  .user-info {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+  }
+  
+  .auth-btn {
+    padding: 8px 15px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .auth-btn:hover {
+    background-color: #555;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+  
+</style>
+<style>
+  /* تصميم زجاجي متوازن */
+  .user-info {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 20, 30, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    min-width: 300px;
+    max-width: 90%;
+    box-sizing: border-box;
+    justify-content: center;
+  }
+
+  /* تحسينات النص */
+  #welcome-message {
+    color: #f5f5f5;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    position: relative;
+    padding-right: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
+
+  #welcome-message::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23d1c4e9"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>') no-repeat center;
+    background-size: contain;
+  }
+
+  /* تحسينات الأزرار */
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .auth-btn {
+    padding: 8px 16px;
+    background: rgba(120, 144, 156, 0.4);
+    color: #eceff1;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 80px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .auth-btn:hover {
+    background: rgba(96, 125, 139, 0.6);
+    transform: translateY(-1px);
+  }
+
+  /* تكيف متقن مع الشاشات */
+  @media (max-width: 768px) {
+    .user-info {
+      padding: 8px 15px;
+      gap: 12px;
+      min-width: auto;
+      width: auto;
+    }
+    
+    #welcome-message {
+      font-size: 14px;
+      padding-right: 22px;
+      max-width: 150px;
+    }
+    
+    #welcome-message::after {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .auth-btn {
+      padding: 7px 14px;
+      font-size: 12px;
+      min-width: 70px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .user-info {
+      top: 15px;
+      padding: 6px 12px;
+      border-radius: 40px;
+    }
+    
+    #welcome-message {
+      display: none;
+    }
+    
+    .auth-buttons {
+      gap: 8px;
+    }
+    
+    .auth-btn {
+      padding: 6px 12px;
+      min-width: 60px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .auth-btn {
+      padding: 6px 10px;
+      font-size: 11px;
+      min-width: 50px;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+
+<button   class="admin" id="admin3"                onclick="uploadAllProductsToFirebase()" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: green;
+  color: white;
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  z-index: 1000;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+">
+📤 رفع كل المنتجات إلى فايربيز
+</button>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="user-info" class="user-info" style="display: none;">
+  <span id="welcome-message"></span>
+  <div class="auth-buttons">
+    <button id="profile-btn" class="auth-btn" onclick="window.location.href='profile.html'">البروفايل</button>
+    <button id="logout-btn" class="auth-btn" onclick="logout()">تسجيل خروج</button>
+  </div>
+</div>
+
+<div id="login-signup-buttons" class="user-info">
+  <button id="login-btn" class="auth-btn" onclick="window.location.href='login.html'">تسجيل دخول</button>
+  <button style="display: none;" id="signup-btn" class="auth-btn" onclick="window.location.href='signup.html'">إنشاء حساب</button>
+</div>
+
+  <header>
+    <img src="img/zz.jpg" alt="شعار الشركة" class="logo" />
+    <p>شركة المصطفى لتصنيع اللحوم  وبيع جميع منتجات الشركات</p>
+  <a href="https://wa.me/201002685167?text=مرحبًا، أود طلب أوردر من موقعكم" class="whatsapp-float" target="_blank" title="تواصل عبر واتساب">
+  <div class="whatsapp-content">
+    <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
+    <span style="text-align: center ;">   للتواصل وطلب اوردر </span>
+  </div>
+  
+</a>
+<div id="cart-icon" style="position: fixed;display: none; bottom: 20px; right: 20px; z-index: 999; background-color: yellow; color: black; padding: 10px 15px; border-radius: 50%; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3);" onclick="openCart()">
+  🛒 <span id="cart-count">0</span>
+</div>
+  </header>
+
+  <nav>
+    <div class="nav-toggle" onclick="toggleMenu()">☰ قائمه </div>
+    <div class="nav-links">
+     
+      <a href="location.html">   موقع شركه المصطفي  " اللوكيشن" </a>
+      <a href="placeOfElmostafa.html">     تعرف علي منافذ بيع تابعه لشركه المصطفي  </a>
+      
+      <a href="#" onclick="checkPassword(event)" class="admin" id="admin1">dashboard</a>
+      <a href="#" onclick="checkPassword1(event)" class="admin" id="admin2">dashboard order</a>
+
+<script>
+  function checkPassword(e) {
+    e.preventDefault(); // منع فتح الرابط مباشرة
+    const pass = prompt("من فضلك أدخل كلمة المرور:");
+    if (pass === "12") {
+      window.location.href = "dashboard.html";
+    } else {
+      alert("كلمة المرور غير صحيحة");
+    }
+  }
+</script>
+<script>
+  function checkPassword1(e) {
+    e.preventDefault(); // منع فتح الرابط مباشرة
+    const pass = prompt("من فضلك أدخل كلمة المرور:");
+    if (pass === "122") {
+      window.location.href = "dashboardorder.html";
+    } else {
+      alert("كلمة المرور غير صحيحة");
+    }
+  }
+</script>
+      
+      
+      
+      
+      
+     
+    </div>
+    <input type="text" id="searchInput" placeholder="ابحث باسم المنتج...">
+  </nav>
+
+  <div class="container" id="productContainer">
+<!-- مصنعات -->
+<div class="product-box" style="--order: 18">
+  <h2>منتجات المصطفي</h2>
+  <img src="img/5.jpeg" class="product-image" alt="منتجات المصطفي" />
+
+  <!-- مفروم -->
+  <div class="product-item"><span class="product-name" data-product-id="mustafa-minced-3kg"> مفروم المصطفى 3 ك </span><span class="price"> 100 ج</span></div>
+  <div class="product-item"><span class="product-name" data-product-id="mustafa-minced-1kg">مفروم المصطفي 1 ك</span><span class="price">193 ج</span></div>
+  <div class="product-item"><span class="product-name" data-product-id="mustafa-minced-400g">مفروم المصطفي 400</span><span class="price">79.5 ج</span></div>
+  <div class="product-item"><span  class="product-name" data-product-id="mustafa-minced-225g">مفروم المصطفي 225</span><span class="price">46 ج</span></div>
+
+  <!-- مكعبات -->
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-cubes-5kg">لحم مكعبات المصطفي 5 ك</span><span class="price">1135 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-cubes-1kg">لحم مكعبات المصطفي 1 ك</span><span class="price">240 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-cubes-400g">لحم مكعبات المصطفي 400</span><span class="price">98 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-bftk-400g">بفتيك المصطفي 400</span><span class="price">102 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-shawerma-400g">شاورما المصطفي 400</span><span class="price">102 ج</span></div>
+
+  <!-- كبده -->
+  <div class="product-item"><span class="product-name"                   class="product-name"   data-product-id="mustafa-liver-birds-5kg">كبده عصافير المصطفي 5 ك</span><span class="price">675 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-birds-1kg">كبده عصافير المصطفي 1 ك</span><span class="price">145 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-birds-400g">كبده عصافير المصطفي 400</span><span class="price">60 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-birds-225g">كبده عصافير المصطفي 225</span><span class="price">35 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-slices-5kg">كبده شرايح المصطفي 5 ك</span><span class="price">775 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-slices-1kg">كبده شرايح المصطفي 1 ك</span><span class="price">165 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-slices-400g">كبده شرايح المصطفي 400</span><span class="price">68 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-liver-slices-225g">كبده شرايح المصطفي 225</span><span class="price">40 ج</span></div>
+
+  <!-- سوسيس -->
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sausage-500g">سوسيس المصطفي 1/2 ك</span><span class="price">51 ج</span></div>
+
+  <!-- سجق وحواوشي وكفته -->
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sujuk-5kg">سجق المصطفي 5 ك مخصوص</span><span class="price">655 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sujuk-3kg">سجق المصطفي 3 ك</span><span class="price">259 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sujuk-1kg">سجق المصطفي 1 ك</span><span class="price">141 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sujuk-400g">سجق المصطفي 400</span><span class="price">59 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-sujuk-350g">سجق المصطفي 350</span><span class="price">38 ج</span></div>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-hawawshi-3kg">حواوشي المصطفي 3 ك</span><span class="price">143 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-hawawshi-1kg">حواوشي المصطفي 1 ك</span><span class="price">71 ج</span></div>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-kofta-skewer-5kg">كفته المصطفي 5ك سيخ</span><span class="price">585 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-kofta-skewer-1kg">كفته المصطفي سيخ 1 ك</span><span class="price">127 ج</span></div>
+
+  <!-- كفته مشوي -->
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-kofta-grilled-1kg">كفته المصطفي مشوي 1 ك</span><span class="price">182 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-kofta-grilled-400g">كفته  المصطفي مشوي 400</span><span class="price">75 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mustafa-kofta-grilled-5kg">كفته  المصطفي مشوي 5 ك</span><span class="price">920 ج</span></div>
+</div>
+
+<!-- الحمد -->
+<div class="product-box" style="--order: 17">
+  <h2>موتزاريلا الحمد</h2>
+  <img src="img/ha1.png" class="product-image" alt="موتزاريلا الحمد" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-white-1kg">جبنه الحمد أبيض 1 ك</span><span class="price">123 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-white-500g">جبنه الحمد أبيض 1/2 ك</span><span class="price">61.75 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-white-200g">جبنه الحمد أبيض 200</span><span class="price">25 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-mix-1kg">جبنه مكس الحمد 1 ك</span><span class="price">116 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-mix-500g">جبنه مكس الحمد 1/2 ك</span><span class="price">58.25 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-mix-200g">جبنه مكس الحمد 200</span><span class="price">24 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-white-400g">جبنه الحمد أبيض 400</span><span class="price">49.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-yellow-1kg">جبنه الحمد أصفر 1 ك</span><span class="price">124 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-yellow-500g">جبنه الحمد أصفر 1/2 ك</span><span class="price">62.25 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-natural-1kg">جبنه الحمد طبيعي 1 ك</span><span class="price">160 ج</span></div>
+</div>
+
+<!-- الحسن والحسين -->
+<div class="product-box" style="--order: 2">
+  <h2>منتجات الحسن والحسين</h2>
+  <img src="img/الحسن.png" class="product-image" alt="الحسن والحسين" />
+   
+  <div class="product-item"><span     class="product-name"   data-product-id="hasan-burger-1kg">برجر الحسن 1 ك</span><span class="price">54 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hasan-burger-plate">برجر الحسن طبق</span><span class="price">54 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hasan-kofta-plate">كفته الحسن طبق</span><span class="price">49.45 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hasan-sujuk-plate">سجق الحسن طبق</span><span class="price">52.15 ج</span></div>
+</div>
+
+<!-- منتجات اطياب -->
+<div class="product-box" style="--order: 9">
+  <h2>منتجات أطياب</h2>
+  <img src="img/فراخ أطياب مقرمش.jpg" class="product-image" alt="منتجات أطياب" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-pane-1kg">بانيه اطياب 1 ك</span><span class="price">183 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-pane-400g">بانيه اطياب 400</span><span class="price">110 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-strips-1kg-box">استربس اطياب 1 ك علب</span><span class="price">320 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-strips-1kg-bag">استربس اطياب 1 ك كيس</span><span class="price">304 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-strips-400g">استربس اطياب 400</span><span class="price">138 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-nuggets-400g">ناجتس اطياب 400</span><span class="price">123.19 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-burger-1kg">برجر اطياب 1 ك</span><span class="price">202.14 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-chicken-burger-6p">برجر اطياب فراخ 6 ق</span><span class="price">135 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-meal">وجبه اطياب</span><span class="price">206 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-plain-luncheon">لانشون اطياب ساده</span><span class="price">210 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="atyab-meat-luncheon">لانشون اطياب لحمه</span><span class="price">248 ج</span></div>
+</div>
+
+<!-- منتجات صلاح -->
+<div class="product-box" style="--order: 1">
+  <h2>منتجات صلاح عبد الفتاح</h2>
+  <img src="img/صلاح عبدالفتاح.jpg" class="product-image" alt="صلاح عبد الفتاح" />
+  <div class="product-item"><span     class="product-name"   data-product-id="salah-kofta-1kg">كفته صلاح 1 ك</span><span class="price">61.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="salah-kofta-plate">كفته صلاح طبق</span><span class="price">27.55 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="salah-burger-1kg">برجر صلاح 1 ك</span><span class="price">65.6 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="salah-burger-plate">برجر صلاح طبق</span><span class="price">29.95 ج</span></div>
+</div>
+
+<!-- مزايا -->
+<div class="product-box" style="--order: 3">
+  <h2>منتجات مزايا</h2>
+  <img src="img/مزايا.jpeg" class="product-image" alt="مزايا" />
+  <div class="product-item"><span     class="product-name"   data-product-id="mazaya-pane-1kg">بانيه مزايا 1 ك</span><span class="price">63 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mazaya-strips-1kg">استربس مزايا 1 ك</span><span class="price">169 ج</span></div>
+</div>
+
+<!-- المراعي -->
+<div class="product-box" style="--order: 4">
+  <h2>منتجات المراعي</h2>
+  <img src="img/مراعي.jpg" class="product-image" alt="المراعي" />
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-burger-1kg">برجر المراعي 1 ك</span><span class="price">104 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-burger-plate">برجر المراعي طبق</span><span class="price">40.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-kofta-plate">كفته المراعي طبق</span><span class="price">40.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-minced-plate">مفروم المراعي طبق</span><span class="price">73 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-sujuk-plate">سجق المراعي طبق</span><span class="price">66 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-hotdog-3kg">هوت دوج المراعي 3 ك</span><span class="price">370 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-sausage-1kg">سوسيس المراعي 1 ك</span><span class="price">124 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="almarai-frank-mesh">فرانك المراعي شبك</span><span class="price">85 ج</span></div>
+</div>
+
+<!-- الجوكر -->
+<div class="product-box" style="--order: 5">
+  <h2>منتجات الجوكر</h2>
+  <img src="img/جوكر.webp" class="product-image" alt="الجوكر" />
+  <div class="product-item"><span     class="product-name"   data-product-id="joker-burger-1kg">برجر الجوكر 1 ك</span><span class="price">76 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="joker-burger-plate">برجر الجوكر طبق</span><span class="price">36.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="joker-kofta-plate">كفته الجوكر طبق</span><span class="price">33.75 ج</span></div>
+</div>
+
+<!-- العابد ورنجه -->
+<div class="product-box" style="--order: 6">
+  <h2>منتجات العابد</h2>
+  <img src="img/k2.png" class="product-image" alt="منتجات العابد" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-duck">بط العابد</span><span class="price">117 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-duck-breast">صدزر بط العابد</span><span class="price">117 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-duck-legs">وراك بط العابد</span><span class="price">117 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-mumbar-empty">ممبار فارغ العابد</span><span class="price">40.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-mumbar-stuffed">ممبار محشي العابد</span><span class="price">73 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alabed-quail">سمان العابد</span><span>116</span></div>
+</div>
+
+<div class="product-box" style="--order: 7">
+  <h2>رنجه</h2>
+  <img src="img/ngmA.jpg" class="product-image" alt="رنجه" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="ranja-orange">رنجه نجمه المدينه برتقالي</span><span>590</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="ranja-blue">رنجه نجمه المدينه ازرق</span><span class="price">580 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="ranja-khalifa">رنجه اولاد خليفه</span><span class="price">545 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="ranja-aloush">رنجه علوش</span><span class="price">530 ج</span></div>
+</div>
+
+<!-- دايم ولعتين رودي -->
+<div class="product-box" style="--order: 8">
+  <h2>منتجات دايم</h2>
+  <img src="img/dayam.jpg" class="product-image" alt="منتجات دايم" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-chicken-2p">فراخ دايم عرض 2 فرخه</span><span class="price">155 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-chicken-1kg">فراخ دايم 1 ك</span><span class="price">109 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-chicken-drumsticks">دبوس فراخ دايم</span><span class="price">105 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-chicken-wings">وراك فراخ دايم</span><span class="price">77 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-chicken-liver-gizzard">كبد // و قوانص دايم</span><span class="price">45 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-burger-1kg">برجر دايم 1 ك</span><span class="price">104 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-mitko-burger-1kg">برجر ميتكو 1 ك</span><span class="price">165 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="dayam-ganjari-burger">برجر قنجاري</span><span class="price">104 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="walaateen-strips">استربس ولعتين</span><span class="price">231 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="roody-pane">بانيه رودي</span><span class="price">60 ج</span></div>
+</div>
+
+<!-- منتجات كوكي -->
+<div class="product-box" style="--order: 10">
+  <h2>منتجات كوكي</h2>
+  <img src="img/images (1).jpeg" class="product-image" alt="منتجات كوكي" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-full-meal">وجبه كوكي كامله</span><span class="price">222 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-strips-400g">استربس كوكي 400</span><span>116</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-pane-super">بانيه كوكي سوبر توفير</span><span class="price">166.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-drumsticks">دبوس كوكي</span><span class="price">166 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-wings">جناح كوكي</span><span class="price">113 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-nuggets-400g">ناجتس كوكي 400</span><span>81</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-luncheon">لانشون كوكي</span><span class="price">155</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-spices-burger-1kg">برجر توابل شرقيه 1 ك</span><span>99</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="cooky-spices-pane-1kg">بانيه توابل شرقيه 1 ك</span><span class="price">117</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shahd-wings">جناح شهد</span><span class="price">91</span></div>
+</div>
+
+<!-- بسمه -->
+<div class="product-box" style="--order: 11">
+  <h2>منتجات بسمه</h2>
+  <img src="img/b.webp" class="product-image" alt="منتجات بسمه" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-molokhia">ملوخيه</span><span class="price">14.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-taro">قلقاس</span><span class="price">25 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-beans">فاصوليا</span><span class="price">16 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-molokhia-tlka">ملوخيه تلقيه</span><span class="price">15.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-mixed-veg">خضار مشكل</span><span class="price">17 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-peas-carrots">بسله جزر</span><span class="price">24.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-peas-plain">بسله ساده</span><span class="price">42.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-veg-soup">شوربه خضار</span><span class="price">16 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-okra-premium">باميه ممتازه</span><span class="price">23 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-okra-zero">باميه زيرو</span><span class="price">38 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="basma-spinach">سبانخ</span><span class="price">13 ج</span></div>
+</div>
+
+<!-- جيفركس تيلا -->
+<div class="product-box" style="--order: 12">
+  <h2>منتجات مونتانا</h2>
+  <img src="img/mo.png" class="product-image" alt="منتجات مونتانا" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="montana-molokhia">ملوخيه مونتانا</span><span class="price">12.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="montana-okra-premium">باميه ممتازه</span><span class="price">17 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="montana-okra-zero">باميه زيرو</span><span class="price">34 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="gefrex-molokhia">ملوخيه جيفركس</span><span class="price">15 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shahrazad-molokhia">ملوخيه شهرزاد</span><span class="price">12 ج</span></div>
+</div>
+
+<div class="product-box" style="--order: 13">
+  <h2>منتجات ماكس تيلا</h2>
+  <img src="img/x.jpg" class="product-image" alt="منتجات ماكس تيلا" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="maxtella-choco-900g">شكولاته ماكس تيلا 900</span><span class="price">110</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="maxtella-choco-400g">شكولاته ماكس تيلا 400</span><span class="price">56</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="maxtella-choco-200g">شكولاته ماكس تيلا 200</span><span class="price">37</span></div>
+</div>
+
+<!-- كاتشب -->
+<div class="product-box" style="--order: 14">
+  <h2>منتجات حكايه</h2>
+  <img src="img/hikaya.jpg" class="product-image" alt="منتجات حكايه" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-ketchup-10kg">كاتشب حكايه 10 ك</span><span class="price">106 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-ketchup-1kg">كاتشب حكايه 1 ك</span><span class="price">28 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-mayo-1kg">مايونيز حكايه 1 ك</span><span class="price">44 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-bbq-1kg">باربكيو حكايه 1 ك</span><span class="price">35.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-mustard-1kg">مسترده حكايه 1 ك</span><span class="price">32 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hikaya-ketchup-1000p">1000 كاتشب ظرف حكايه</span><span class="price">180 ج</span></div>
+</div>
+
+<div class="product-box" style="--order: 15">
+  <h2>منتجات روتانا</h2>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="rotana-sambosa">سمبوسه روتانا</span><span class="price">19 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="rotana-glash">جلاش روتانا</span><span class="price">12 ج</span></div>
+</div>
+
+<div class="product-box" style="--order: 16">
+  <h2>منتجات بحرية</h2>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="white-fish">سمك أبيض</span><span class="price">114.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="seafood-mix">سي فود</span><span class="price">51 ج</span></div>
+</div>
+
+<!-- منتجات شيكا -->
+<div class="product-box" style="--order: 19">
+  <h2>منتجات شيكاتيتا</h2>
+  <img src="img/shika.jpeg" class="product-image" alt="منتجات شيكاتيتا" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-meal">وجبه شيكا</span><span class="price">188 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-burger-1kg">برجر شيكا 1ك</span><span class="price">160 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-strips-1kg-bag">استربس شيكا 1 ك كيس</span><span class="price">256 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-strips-400g">استربس شيكا 400</span><span class="price">114.59 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-pane-1kg">بانيه شيكا 1ك</span><span class="price">126.19 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-furat-pane-1kg">بانيه فرات 1ك</span><span class="price">94 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-pane-400g">بانيه شيكا 400</span><span>74</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-drumsticks">دبوس شيكا</span><span class="price">111 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-wings">جناح شيكا</span><span>96</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="shika-midland-burger-1kg">برجر ميتلاند 1ك</span><span>168</span></div>
+</div>
+
+<!-- حلواني -->
+<div class="product-box" style="--order: 20">
+  <h2>منتجات حلواني</h2>
+  <img src="img/halawany.png" class="product-image" alt="منتجات حلواني" />
+
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-burger-1kg">برجر حلواني 1 ك</span><span class="price">178 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-burger-8p">برجر حلواني 8 ق</span><span>99.75</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-frank-mesh">فرانك حلواني مشط</span><span>136</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-frank-small">فرانك حلواني صغير</span><span class="price">66.69 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-minced-plate">مفروم حلواني طبق</span><span class="price">132 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-sujuk-plate">سجق حلواني طبق</span><span class="price">108 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-kofta-plate">كفته حلواني طبق</span><span>87</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-plain-luncheon">لانشون حلواني ساده</span><span class="price">230 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-salami-luncheon">لانشون حلواني سلامي</span><span class="price">315 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-chicken-luncheon">لانشون حلواني فراخ ساده</span><span class="price">245 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halawany-chicken-smoked-luncheon">لانشون حلواني فراخ قشطه مدخن</span><span class="price">305 ج</span></div>
+</div>
+
+<!-- بطاطس لانشون -->
+<div class="product-box" style="--order: 21">
+  <h2>بطاطس</h2>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="farm-fries-2.5kg">بطاطس فارم 2.5 ك</span><span class="price">154 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="farm-fries-1kg">بطاطس فارم 1 ك</span><span class="price">64.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mama-fries-1kg">بطاطس ماما 1 ك</span><span class="price">59.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="frigis-fries-2.5kg">بطاطس فريجس 2.5 ك</span><span class="price">131 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="green-valley-fries-2.5kg">بطاطس الوادي الاخضر 2.5 ك</span><span class="price">85 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="fayrouz-fries-2.5kg">بطاطس فيروز محسنه 2.5 ك</span><span class="price">60 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="farza-fries-2.5kg">بطاطس فرزه 2.5 ك</span><span class="price">65 ج</span></div>
+
+  <h2 style="margin-top: 20px;">لانشون القاسم</h2>
+  <div class="product-item"><span     class="product-name"   data-product-id="alqasim-luncheon-3kg">لانشون القاسم 3 ك</span><span class="price">200 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="alqasim-luncheon-400g">لانشون القاسم 400</span><span class="price">31 ج</span></div>
+</div>
+
+<!-- زبده لانشون -->
+<div class="product-box" style="--order: 22">
+  <h2>زبده</h2>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="fern-butter-1kg">زبده فيرن 1 ك</span><span class="price">1353 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="fern-butter-500g">زبده فيرن 1/2 ك</span><span>70</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="crystal-butter-1kg">زبده كريستال 1 ك</span><span class="price">114.5 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="crystal-butter-500g">زبده كريستال 1/2 ك</span><span class="price">70 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="eastern-cow-butter">زبده بقري بيور الشرقيه</span><span class="price">86 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="eastern-buffalo-butter">زبده جاموسي بيور الشرقيه</span><span class="price">88 ج</span></div>
+
+  <h2 style="margin-top: 20px;">لانشون</h2>
+  <div class="product-item"><span     class="product-name"   data-product-id="original-luncheon">لانشون اوريجينال</span><span class="price">260 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="amjad-luncheon">لانشون امجاد</span><span class="price">168 ج</span></div>
+</div>
+
+<!-- سوسيس -->
+<div class="product-box" style="--order: 23">
+  <h2>سوسيس و استربس</h2>
+
+  <div class="product-item"><span     class="product-name"   data-product-id="bedaya-sausage-5kg">سوسيس بدايه 5 ك</span><span class="price">540 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halal-sausage-5kg">سوسيس حلال 5 ك</span><span class="price">435 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="mitko-sausage-5kg">سوسي ميتكو 5 ك</span><span class="price">380 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="halal-smoked-sujuk">سجق مدخن حلال</span><span class="price">99 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="crispico-strips-5kg">استربس كرسبيكو 5 ك</span><span class="price">680 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-strips-5kg">استربس الحمد 5 ك</span><span class="price">680 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="hamd-butterfly-breast-5kg">صدور فراشه الحمد 5 ك</span><span class="price">785 ج</span></div>
+
+  <h2 style="margin-top: 20px;">أخرى</h2>
+  <div class="product-item"><span     class="product-name"   data-product-id="pastrami">بسطرمه مخليه</span><span class="price">283 ج</span></div>
+  <div class="product-item"><span     class="product-name"   data-product-id="filmenk-cheese">فلمنك تشيزا</span><span class="price">315 ج</span></div>
+</div>
+  </div>
+
+  <script>
+
+
+// إدارة سلة التسوق
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// تحديث عدد العناصر في السلة
+function updateCartCount() {
+  const count = cart.reduce((total, item) => total + item.quantity, 0);
+  document.getElementById('cart-count').textContent = count;
+}
+
+// إضافة منتج إلى السلة
+function addToCart(productId, productName, productPrice) {
+  // التحقق من تسجيل الدخول
+  const user = JSON.parse(localStorage.getItem('user'));
+ 
+  // البحث عن المنتج في السلة
+  const existingItem = cart.find(item => item.id === productId);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: productId,
+      name: productName,
+      price: parseFloat(productPrice),
+      quantity: 1
+    });
+  }
+  
+  function showAlert(productName) {
+    const toast = document.createElement('div');
+    toast.className = 'alert-toast';
+    toast.textContent = ` `;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 1000);
+  }
+  
+  // حفظ السلة في localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  // تحديث العداد
+  updateCartCount();
+  
+  // عرض رسالة تأكيد
+  showAlert(productName);
+}
+// فتح صفحة السلة
+function openCart() {
+  window.location.href = 'cart.html';
+}
+
+// إضافة حدث النقر لكل عنصر منتج
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartCount();
+  
+  document.querySelectorAll('.product-item').forEach(item => {
+    const productId = item.querySelector('span').getAttribute('data-product-id');
+    const productName = item.querySelector('span').textContent;
+    const productPrice = item.querySelector('.price')?.textContent;
+    
+    if (productId && productName && productPrice) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => {
+        addToCart(productId, productName, productPrice);
+      });
+    }
+  });
+});
+
+
+    const searchInput = document.getElementById("searchInput");
+    const productBoxes = document.querySelectorAll(".product-box");
+
+    // Initialize animation delays for product boxes
+    document.querySelectorAll('.product-box').forEach((box, index) => {
+      box.style.setProperty('--order', index);
+    });
+
+    searchInput.addEventListener("input", function () {
+      const filter = this.value.trim().toLowerCase();
+      
+      if (filter === '') {
+        // إذا كان حقل البحث فارغًا، اعرض كل العناصر
+        productBoxes.forEach(box => {
+          box.style.display = "block";
+          box.querySelectorAll(".product-item").forEach(item => {
+            item.style.display = "flex";
+            item.classList.remove("highlight");
+          });
+          box.querySelector("h2").classList.remove("highlight");
+        });
+        return;
+      }
+
+      productBoxes.forEach(box => {
+        let hasMatch = false;
+        const title = box.querySelector("h2").textContent.toLowerCase();
+        const items = box.querySelectorAll(".product-item");
+
+        // تحقق مما إذا كان العنوان يتطابق
+        if (title.includes(filter)) {
+          box.style.display = "block";
+          hasMatch = true;
+          // تسليط الضوء على العنوان مع الحركة
+          box.querySelector("h2").classList.add("highlight");
+          // عرض جميع العناصر داخل الصندوق
+          items.forEach(item => {
+            item.style.display = "flex";
+          });
+        } else {
+          box.querySelector("h2").classList.remove("highlight");
+        }
+
+        // تحقق من العناصر
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(filter)) {
+            item.style.display = "flex";
+            hasMatch = true;
+            // تسليط الضوء على العنصر المطابق مع الحركة
+            item.classList.add("highlight");
+            // تأكد من عرض الصندوق الذي يحتوي على العنصر
+            box.style.display = "block";
+          } else {
+            item.style.display = "none";
+            item.classList.remove("highlight");
+          }
+        });
+
+        // إخفاء الصناديق التي لا تحتوي على تطابقات
+        if (!hasMatch) {
+          box.style.display = "none";
+        }
+      });
+    });
+
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('show');
+      
+      // حركات الروابط عند فتح/إغلاق القائمة
+      if (navLinks.classList.contains('show')) {
+        document.querySelectorAll('.nav-links a').forEach((link, index) => {
+          link.style.animation = `fadeInLeft 0.5s ease-out forwards ${index * 0.1}s`;
+        });
+      } else {
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          link.style.animation = '';
+        });
+      }
+    }
+
+    // تأثيرات hover للصناديق
+    document.querySelectorAll('.product-box').forEach(box => {
+      box.addEventListener('mouseenter', () => {
+        box.style.transform = 'translateY(-10px) rotateX(0deg)';
+        box.style.boxShadow = '0 15px 30px rgba(255, 255, 0, 0.3)';
+      });
+      
+      box.addEventListener('mouseleave', () => {
+        box.style.transform = 'translateY(0) rotateX(0deg)';
+        box.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+      });
+    });
+</script>
+
+
+
+
+<!-- ✅ روابط Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+  // ✅ تكوين Firebase
+  const firebaseConfig = {
+  apiKey: "AIzaSyCR_9LTEVlFMnYhGT5JaqR2hG2lu06D9Ow",
+  authDomain: "pricelistofelmostafa.firebaseapp.com",
+  projectId: "pricelistofelmostafa",
+  storageBucket: "pricelistofelmostafa.firebasestorage.app",
+  messagingSenderId: "39463931277",
+  appId: "1:39463931277:web:02cc42fc88508696b501c4"
+};
+
+  // ✅ تهيئة Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // ✅ تحديث الأسعار لحظياً
+  const startRealtimePriceUpdates = () => {
+    db.collection("products").onSnapshot(snapshot => {
+      console.group("🚀 بدء عملية التحديث اللحظي للأسعار");
+
+      const allProductElements = Array.from(document.querySelectorAll('[data-product-id]'));
+      if (allProductElements.length === 0) {
+        console.error("❌ خطأ جسيم: لم يتم العثور على أي منتجات في الصفحة");
+        console.groupEnd();
+        return;
+      }
+
+      let updatedCount = 0;
+      let missingDataCount = 0;
+      let unchangedCount = 0;
+      let missingElementsCount = 0;
+
+      const productElementsMap = new Map();
+      allProductElements.forEach(el => {
+        productElementsMap.set(el.getAttribute('data-product-id').trim(), el);
+      });
+
+      snapshot.forEach(doc => {
+  const productId = doc.id.trim();
+  const productData = doc.data();
+
+  if (!productData || typeof productData.price === 'undefined' || typeof productData.name === 'undefined') {
+    console.warn(`⚠️ بيانات غير مكتملة للمنتج "${productId}"`);
+    missingDataCount++;
+    return;
+  }
+
+  const dbPrice = productData.price.toString().trim();
+  const dbName = productData.name.toString().trim();
+  const productElement = productElementsMap.get(productId);
+
+  if (!productElement) {
+    console.warn(`🔍 المنتج "${productId}" غير موجود في الصفحة`);
+    missingElementsCount++;
+    return;
+  }
+
+  // تحديث الاسم إذا اختلف
+  const currentName = productElement.textContent.trim();
+  if (currentName !== dbName) {
+    productElement.textContent = dbName;
+    console.log(`✏️ "${productId}" تم تحديث الاسم إلى "${dbName}"`);
+  }
+
+  // تحديث السعر
+  const priceElement = productElement.nextElementSibling;
+
+  if (!priceElement || !priceElement.classList.contains('price')) {
+    console.error(`❌ عنصر السعر للمنتج "${productId}" غير صحيح`);
+    return;
+  }
+
+  const currentPrice = priceElement.textContent.trim();
+  if (currentPrice !== dbPrice) {
+    priceElement.textContent = dbPrice;
+    updatedCount++;
+    console.log(`💸 "${productId}" تم تحديث السعر من "${currentPrice}" إلى "${dbPrice}"`);
+  } else {
+    unchangedCount++;
+    console.log(`⏩ "${productId}" السعر محدث بالفعل (${dbPrice})`);
+  }
+});
+
+
+      console.log(`
+📊 تقرير التحديث اللحظي:
+✅ ${updatedCount} منتج تم تحديثه
+⏩ ${unchangedCount} منتج كان محدثاً
+⚠️ ${missingDataCount} منتج بدون سعر في Firebase
+🔍 ${missingElementsCount} منتج غير موجود في الصفحة
+📦 إجمالي المنتجات في Firebase: ${snapshot.size}
+      `);
+
+      console.groupEnd();
+    }, (error) => {
+      console.error("❌ خطأ في الاتصال بـ Firestore:", error);
+    });
+  };
+
+  // ✅ شغّل التحديث اللحظي لما الصفحة تفتح
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log("✅ الصفحة جاهزة، بدأ التحديث اللحظي للأسعار...");
+    startRealtimePriceUpdates();
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  // التحقق من حالة تسجيل الدخول
+
+
+  function showaDDmin(){
+       const user = JSON.parse(localStorage.getItem('user'));
+
+       if(user==null){
+  document.getElementById("admin1").classList.add("admin")
+document.getElementById("admin2").classList.add("admin")
+document.getElementById("admin3").classList.add("admin")
+
+       }
+        
+ else if(user.phone==="01021502941" ){
+document.getElementById("admin1").classList.remove("admin")
+document.getElementById("admin2").classList.remove("admin")
+document.getElementById("admin3").classList.remove("admin")
+}
+else{
+  document.getElementById("admin1").classList.add("admin")
+document.getElementById("admin2").classList.add("admin")
+document.getElementById("admin3").classList.add("admin")
+
+}
+  }
+
+
+
+  function checkAuthState() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      document.getElementById('user-info').style.display = 'flex';
+      document.getElementById('welcome-message').textContent = `مرحباً ${user.name}`;
+     
+      document.getElementById('login-signup-buttons').style.display = 'none';
+showaDDmin()
+
+// hjghjgkuhihihihiohliuguygfuyk
+
+
+    } else {
+      document.getElementById('user-info').style.display = 'none';
+      document.getElementById('login-signup-buttons').style.display = 'flex';
+    }
+  }
+
+  // تسجيل الخروج
+  function logout() {
+    localStorage.removeItem('user');
+    checkAuthState();
+    alert('تم تسجيل الخروج بنجاح');
+
+
+showaDDmin()
+
+
+
+    
+  }
+
+  // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
+  document.addEventListener('DOMContentLoaded', checkAuthState);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function uploadAllProductsToFirebase() {
+    const allItems = document.querySelectorAll('.product-item');
+    let total = 0;
+    let failed = 0;
+
+    allItems.forEach(item => {
+      const nameEl = item.querySelector('[data-product-id]');
+      const priceEl = item.querySelector('.price');
+
+      if (!nameEl || !priceEl) {
+        console.warn("⛔ عنصر مفقود (data-product-id أو .price)");
+        failed++;
+        return;
+      }
+
+      const id = nameEl.getAttribute('data-product-id')?.trim();
+      const name = nameEl.textContent?.trim();
+      const priceText = priceEl.textContent?.replace('ج', '').trim();
+      const price = parseFloat(priceText);
+
+      if (!id || !name || isNaN(price)) {
+        console.warn(`❌ بيانات غير صالحة للمنتج:`, { id, name, priceText });
+        failed++;
+        return;
+      }
+
+      db.collection("products").doc(id).set({
+        name,
+        price
+      }).then(() => {
+        console.log(`✅ تم رفع: ${name} (ID: ${id}) - ${price} ج`);
+        total++;
+      }).catch(err => {
+        console.error(`🚫 فشل رفع ${name} (${id})`, err);
+        failed++;
+      });
+    });
+
+    setTimeout(() => {
+      alert(`📦 تم رفع ${total} منتج ✅\n❌ فشل في ${failed} منتجات (راجع الكونسول)`);
+    }, 1000);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+function createProductElement(product) {
+  const item = document.createElement('div');
+  item.className = 'product-item';
+
+  const nameSpan = document.createElement('span');
+  nameSpan.className = 'product-name';
+  nameSpan.setAttribute('data-product-id', product.id);
+  nameSpan.textContent = product.name;
+
+  const priceSpan = document.createElement('span');
+  priceSpan.className = 'price';
+  priceSpan.textContent = `${product.price} ج`;
+
+  item.appendChild(nameSpan);
+  item.appendChild(priceSpan);
+
+  // تفاعل الإضافة للسلة
+  item.addEventListener('click', () => {
+    addToCart(product.id, product.name, product.price);
+  });
+
+  return item;
+}
+
+function loadOnlyNewProducts() {
+  db.collection("products").get().then(snapshot => {
+    const existingIds = new Set();
+    document.querySelectorAll('[data-product-id]').forEach(el => {
+      existingIds.add(el.getAttribute('data-product-id').trim());
+    });
+
+    const box = document.querySelector('.product-box'); // أو حدد صندوق معين حسب التصنيف
+
+    snapshot.forEach(doc => {
+      const product = { id: doc.id, ...doc.data() };
+
+      if (!existingIds.has(product.id)) {
+        const newEl = createProductElement(product);
+        box?.appendChild(newEl);
+      }
+    });
+  }).catch(err => {
+    console.error("❌ فشل في تحميل المنتجات:", err);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadOnlyNewProducts();
+});
+</script>
+
+
+
+
+</body>
+</html>

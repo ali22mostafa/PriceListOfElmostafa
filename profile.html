@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>البروفايل - شركة المصطفى</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .logo {
+      display: block;
+      margin: 10px auto;
+      max-width: 220px;
+      border-radius: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    h1 {
+      color: yellow;
+      text-align: center;
+    }
+    .profile-section {
+      background-color: #222;
+      border: 1px solid yellow;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .user-info {
+      margin-bottom: 15px;
+    }
+    .user-info label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .user-info input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .orders-container, .notifications-container {
+      margin-top: 30px;
+    }
+    .order-card, .notification-card {
+      background-color: #333;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .order-header, .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .order-id, .notification-id {
+      font-weight: bold;
+      color: yellow;
+    }
+    .order-date, .notification-date {
+      color: #aaa;
+      font-size: 14px;
+    }
+    .order-status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .status-new {
+      background-color: #ffcc00;
+      color: #000;
+    }
+    .status-processing {
+      background-color: #0066ff;
+      color: #fff;
+    }
+    .status-completed {
+      background-color: #00aa00;
+      color: #fff;
+    }
+    .status-cancelled {
+      background-color: #ff3333;
+      color: #fff;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    .order-total {
+      text-align: left;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .no-orders, .no-notifications {
+      text-align: center;
+      color: #aaa;
+      margin-top: 20px;
+    }
+    .back-btn {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .notification-unread {
+      border-left: 5px solid yellow;
+    }
+    .mark-as-read {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .back-btn1 {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #0d47a1;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+    }
+    .back-btn1:hover {
+      background-color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-btn1">← رجوع</a>
+  <header>
+    <img src="img/zz.jpg" alt="شعار الشركة" class="logo" />
+  </header>
+
+  <div class="container">
+    <h1>البروفايل الشخصي</h1>
+
+    <div class="profile-section">
+      <h2>معلومات الحساب</h2>
+      <div id="user-details" class="user-info">
+        <!-- سيتم تعبئتها بالجافاسكربت -->
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h2>إشعاراتي</h2>
+      <div id="notifications-container" class="notifications-container">
+        <!-- سيتم ملؤها بالإشعارات -->
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h2>طلباتي السابقة</h2>
+      <div id="orders-container" class="orders-container">
+        <!-- سيتم ملؤها بالطلبات -->
+      </div>
+    </div>
+
+    <button type="button" class="back-btn" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    // Firebase Configuration
+  const firebaseConfig = {
+  apiKey: "AIzaSyCR_9LTEVlFMnYhGT5JaqR2hG2lu06D9Ow",
+  authDomain: "pricelistofelmostafa.firebaseapp.com",
+  projectId: "pricelistofelmostafa",
+  storageBucket: "pricelistofelmostafa.firebasestorage.app",
+  messagingSenderId: "39463931277",
+  appId: "1:39463931277:web:02cc42fc88508696b501c4"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function displayUserInfoAndData() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // عرض البيانات وزر التعديل
+      document.getElementById('user-details').innerHTML = `
+        <p><strong>الاسم:</strong> <span id="display-name">${user.name}</span></p>
+        <p><strong>رقم الهاتف:</strong> <span id="display-phone">${user.phone}</span></p>
+        <p><strong>العنوان:</strong> <span id="display-address">${user.address || ''}</span></p>
+        <button onclick="enableEdit('${user.id}')" class="back-btn">تعديل</button>
+        <div id="edit-form" style="display:none; margin-top: 20px;">
+          <label>الاسم:</label>
+          <input type="text" id="edit-name" value="${user.name}" />
+
+          <label>رقم الهاتف:</label>
+          <input type="text" id="edit-phone" value="${user.phone}" />
+
+          <label>العنوان:</label>
+          <input type="text" id="edit-address" value="${user.address || ''}" />
+
+          <button onclick="saveUserChanges('${user.id}')" class="back-btn">حفظ التعديلات</button>
+        </div>
+      `;
+
+      // الإشعارات
+      db.collection('notifications')
+        .where('userId', '==', user.id)
+        .orderBy('timestamp', 'desc')
+        .onSnapshot(snapshot => {
+          const notificationsContainer = document.getElementById('notifications-container');
+          if (snapshot.empty) {
+            notificationsContainer.innerHTML = '<p class="no-notifications">لا توجد إشعارات</p>';
+            return;
+          }
+
+          notificationsContainer.innerHTML = '';
+          snapshot.forEach(doc => {
+            const notification = doc.data();
+            notification.id = doc.id;
+
+            let formattedDate = 'غير معروف';
+            if (notification.timestamp && notification.timestamp.toDate) {
+              formattedDate = notification.timestamp.toDate().toLocaleString('ar-EG');
+            }
+
+            const notificationElement = document.createElement('div');
+            notificationElement.className = `notification-card ${notification.read ? '' : 'notification-unread'}`;
+            notificationElement.innerHTML = `
+              <div class="notification-header">
+                <span class="notification-id">${notification.message}</span>
+                <span class="notification-date">${formattedDate}</span>
+              </div>
+              ${!notification.read ? `<button class="mark-as-read" onclick="markNotificationAsRead('${notification.id}')">تم القراءة</button>` : ''}
+            `;
+
+            notificationsContainer.appendChild(notificationElement);
+          });
+        });
+
+      // الطلبات
+      db.collection('orders')
+        .where('customerPhone', '==', user.phone)
+        .orderBy('timestamp', 'desc')
+        .onSnapshot(snapshot => {
+          const ordersContainer = document.getElementById('orders-container');
+          if (snapshot.empty) {
+            ordersContainer.innerHTML = '<p class="no-orders">لا توجد طلبات سابقة</p>';
+            return;
+          }
+
+          ordersContainer.innerHTML = '';
+          snapshot.forEach(doc => {
+            const order = doc.data();
+            order.id = doc.id;
+
+            let formattedDate = 'غير معروف';
+            if (order.timestamp && order.timestamp.toDate) {
+              formattedDate = order.timestamp.toDate().toLocaleString('ar-EG');
+            }
+
+            let statusClass = '';
+            if (order.status === 'جديد') statusClass = 'status-new';
+            else if (order.status === 'قيد المعالجة') statusClass = 'status-processing';
+            else if (order.status === 'مكتمل') statusClass = 'status-completed';
+            else if (order.status === 'ملغي') statusClass = 'status-cancelled';
+
+            const orderElement = document.createElement('div');
+            orderElement.className = 'order-card';
+            orderElement.innerHTML = `
+              <div class="order-header">
+                <div>
+                  <span class="order-id">رقم الطلب: ${order.id}</span>
+                  <span class="order-date">${formattedDate}</span>
+                </div>
+                <span class="order-status ${statusClass}">${order.status}</span>
+              </div>
+              <div class="order-items">
+                ${order.items.map(item => `
+                  <div class="order-item">
+                    <span>${item.name} (${item.quantity} × ${item.price} ج)</span>
+                    <span>${(item.quantity * item.price).toFixed(2)} ج</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="order-total">الإجمالي: ${order.total.toFixed(2)} ج</div>
+            `;
+
+            ordersContainer.appendChild(orderElement);
+          });
+        });
+    }
+
+    function enableEdit(userId) {
+      document.getElementById('edit-form').style.display = 'block';
+    }
+
+    function saveUserChanges(userId) {
+      const name = document.getElementById('edit-name').value.trim();
+      const phone = document.getElementById('edit-phone').value.trim();
+      const address = document.getElementById('edit-address').value.trim();
+
+      if (!name || !phone) {
+        alert("الاسم ورقم الهاتف مطلوبان.");
+        return;
+      }
+
+      db.collection('users').doc(userId).update({
+        name: name,
+        phone: phone,
+        address: address
+      }).then(() => {
+        const updatedUser = { id: userId, name, phone, address };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        alert("تم حفظ التعديلات بنجاح.");
+        displayUserInfoAndData();
+      }).catch((error) => {
+        console.error("حدث خطأ أثناء الحفظ:", error);
+        alert("حدث خطأ أثناء حفظ التعديلات.");
+      });
+    }
+
+    function markNotificationAsRead(notificationId) {
+      db.collection('notifications').doc(notificationId).update({ read: true })
+        .then(() => console.log('تم التعليم كمقروء'))
+        .catch(err => console.error('خطأ في التحديث:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', displayUserInfoAndData);
+  </script>
+</body>
+</html>

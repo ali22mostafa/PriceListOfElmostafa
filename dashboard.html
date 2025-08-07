@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لوحة التحكم - إدارة المنتجات</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+    h1 { text-align: center; color: #222; }
+    .back-btn { position: fixed; top: 20px; right: 20px; background: #0d47a1; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: bold; z-index: 1000; }
+    #search { margin: 20px auto; display: block; max-width: 400px; width: 100%; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; }
+    #products { max-width: 900px; margin: auto; display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 15px; }
+    .product-box { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 10px; }
+    .product-id { font-weight: bold; color: #555; word-break: break-word; font-size: 14px; }
+    .price-input, .name-input { padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 6px; }
+    .btn { padding: 10px; font-size: 14px; border: none; border-radius: 6px; cursor: pointer; }
+    .update-btn { background: #007bff; color: white; }
+    .delete-btn { background: #dc3545; color: white; }
+    .offer-btn { background: #28a745; color: white; }
+    .remove-offer-btn { background: #ffc107; color: black; }
+    .add-section { max-width: 900px; margin: 40px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .add-section input { margin: 10px 0; width: 100%; }
+    #alert { margin: 20px auto; max-width: 900px; padding: 10px; border-radius: 8px; display: none; text-align: center; font-weight: bold; }
+    #alert.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    #alert.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    #filter-buttons { max-width: 900px; margin: 10px auto 20px auto; text-align: center; }
+    #filter-buttons button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #filter-buttons button.active {
+      background-color: #007bff;
+      color: white;
+    }
+    #filter-buttons button:not(.active) {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">← رجوع</a>
+<h1>لوحة التحكم - إدارة المنتجات</h1>
+
+<div id="filter-buttons">
+  <button id="show-all-btn" class="active">عرض كل المنتجات</button>
+  <button id="show-offers-btn">عرض العروض فقط</button>
+</div>
+
+<input type="text" id="search" placeholder="🔍 ابحث باسم المنتج..." />
+<div id="alert"></div>
+<div id="products">جارٍ التحميل...</div>
+
+<div class="add-section">
+  <h3>➕ إضافة منتج جديد</h3>
+  <input type="text" id="new-id" placeholder="معرّف المنتج (product-id)" />
+  <input type="text" id="new-name" placeholder="اسم المنتج" />
+  <input type="number" id="new-price" placeholder="السعر (جنيه)" />
+  <button class="btn update-btn" onclick="addProduct()">إضافة</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCR_9LTEVlFMnYhGT5JaqR2hG2lu06D9Ow",
+  authDomain: "pricelistofelmostafa.firebaseapp.com",
+  projectId: "pricelistofelmostafa",
+  storageBucket: "pricelistofelmostafa.firebasestorage.app",
+  messagingSenderId: "39463931277",
+  appId: "1:39463931277:web:02cc42fc88508696b501c4"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const productsDiv = document.getElementById("products");
+const alertDiv = document.getElementById("alert");
+const searchInput = document.getElementById("search");
+const showAllBtn = document.getElementById("show-all-btn");
+const showOffersBtn = document.getElementById("show-offers-btn");
+
+function showAlert(msg, type = "success") {
+  alertDiv.textContent = msg;
+  alertDiv.className = type === "error" ? "error" : "success";
+  alertDiv.style.display = "block";
+  setTimeout(() => alertDiv.style.display = "none", 3000);
+}
+
+let allProducts = [];
+let allOffers = {};
+let filteredProducts = [];
+let currentFilter = "all"; // "all" or "offers"
+
+async function loadProducts() {
+  productsDiv.innerHTML = "جارٍ التحميل...";
+  try {
+    const [productsSnapshot, offersSnapshot] = await Promise.all([
+      db.collection("products").get(),
+      db.collection("offers").get()
+    ]);
+
+    allOffers = {};
+    offersSnapshot.forEach(doc => {
+      allOffers[doc.id] = true;
+    });
+
+    allProducts = [];
+    productsSnapshot.forEach(doc => {
+      allProducts.push({ id: doc.id, ...doc.data(), isOffer: !!allOffers[doc.id] });
+    });
+
+    applyFilterAndRender();
+  } catch (e) {
+    showAlert("❌ فشل في تحميل المنتجات", "error");
+    console.error(e);
+  }
+}
+
+function applyFilterAndRender() {
+  // طبق فلتر العرض
+  if (currentFilter === "offers") {
+    filteredProducts = allProducts.filter(p => p.isOffer);
+  } else {
+    filteredProducts = [...allProducts];
+  }
+
+  // طبق فلتر البحث
+  const searchTerm = searchInput.value.trim().toLowerCase();
+  if (searchTerm) {
+    filteredProducts = filteredProducts.filter(p => p.name?.toLowerCase().includes(searchTerm));
+  }
+
+  renderProducts(filteredProducts);
+}
+
+function renderProducts(products) {
+  productsDiv.innerHTML = "";
+  if (products.length === 0) {
+    productsDiv.innerHTML = "<p style='text-align:center; color:#666;'>لا توجد منتجات للعرض</p>";
+    return;
+  }
+
+  products.forEach(product => {
+    const box = document.createElement("div");
+    box.className = "product-box";
+    box.innerHTML = `
+      <div class="product-id">
+        🆔 ${product.id}
+        ${product.isOffer ? '<span style="color: #28a745; font-weight: bold; margin-right: 10px;">📢 على عرض</span>' : ''}
+      </div>
+      <input class="name-input" value="${product.name || ''}" placeholder="اسم المنتج" />
+      <input class="price-input" type="number" value="${product.price || ''}" placeholder="السعر" />
+      <button class="btn update-btn">💾 تحديث</button>
+      <button class="btn delete-btn">🗑️ حذف</button>
+      <button class="btn offer-btn">📢 عرض كعرض</button>
+      <button class="btn remove-offer-btn">❌ حذف العرض</button>
+    `;
+
+    const nameInput = box.querySelector('.name-input');
+    const priceInput = box.querySelector('.price-input');
+    const updateBtn = box.querySelector('.update-btn');
+    const deleteBtn = box.querySelector('.delete-btn');
+    const offerBtn = box.querySelector('.offer-btn');
+    const removeOfferBtn = box.querySelector('.remove-offer-btn');
+
+    updateBtn.onclick = async () => {
+      const newName = nameInput.value.trim();
+      const newPrice = parseFloat(priceInput.value.trim());
+      if (!newName || isNaN(newPrice)) {
+        showAlert("❌ الاسم أو السعر غير صالح", "error");
+        return;
+      }
+      try {
+        await db.collection("products").doc(product.id).set({ name: newName, price: newPrice }, { merge: true });
+        showAlert(`✅ تم تحديث المنتج (${product.id})`);
+        await loadProducts();
+      } catch (e) {
+        showAlert("❌ فشل في التحديث", "error");
+        console.error(e);
+      }
+    };
+
+    deleteBtn.onclick = async () => {
+      if (confirm(`هل تريد حذف المنتج (${product.id})؟`)) {
+        try {
+          await db.collection("products").doc(product.id).delete();
+          showAlert("✅ تم حذف المنتج");
+          await loadProducts();
+        } catch (e) {
+          showAlert("❌ فشل في الحذف", "error");
+        }
+      }
+    };
+
+    offerBtn.onclick = async () => {
+      const name = nameInput.value.trim();
+      const price = parseFloat(priceInput.value.trim());
+      if (!name || isNaN(price)) {
+        showAlert("❌ الاسم أو السعر غير صالح", "error");
+        return;
+      }
+      try {
+        await db.collection("offers").doc(product.id).set({ name, price });
+        showAlert("✅ تم إضافة المنتج إلى العروض");
+        await loadProducts();
+      } catch (e) {
+        showAlert("❌ فشل في إضافة العرض", "error");
+        console.error(e);
+      }
+    };
+
+    removeOfferBtn.onclick = async () => {
+      try {
+        await db.collection("offers").doc(product.id).delete();
+        showAlert("✅ تم حذف العرض من العروض");
+        await loadProducts();
+      } catch (e) {
+        showAlert("❌ فشل في حذف العرض", "error");
+        console.error(e);
+      }
+    };
+
+    productsDiv.appendChild(box);
+  });
+}
+
+searchInput.addEventListener("input", () => {
+  applyFilterAndRender();
+});
+
+showAllBtn.onclick = () => {
+  currentFilter = "all";
+  setActiveFilterButton();
+  applyFilterAndRender();
+};
+
+showOffersBtn.onclick = () => {
+  currentFilter = "offers";
+  setActiveFilterButton();
+  applyFilterAndRender();
+};
+
+function setActiveFilterButton() {
+  if (currentFilter === "all") {
+    showAllBtn.classList.add("active");
+    showOffersBtn.classList.remove("active");
+  } else {
+    showOffersBtn.classList.add("active");
+    showAllBtn.classList.remove("active");
+  }
+}
+
+async function addProduct() {
+  const id = document.getElementById("new-id").value.trim();
+  const name = document.getElementById("new-name").value.trim();
+  const price = parseFloat(document.getElementById("new-price").value.trim());
+
+  if (!id || !name || isNaN(price)) {
+    showAlert("❌ أدخل كل البيانات بشكل صحيح", "error");
+    return;
+  }
+
+  try {
+    await db.collection("products").doc(id).set({ name, price });
+    showAlert("✅ تم إضافة المنتج");
+    document.getElementById("new-id").value = '';
+    document.getElementById("new-name").value = '';
+    document.getElementById("new-price").value = '';
+    loadProducts();
+  } catch (e) {
+    showAlert("❌ فشل في الإضافة", "error");
+    console.error(e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.phone !== "01021502941") {
+    alert("🔒 يجب تسجيل الدخول كمشرف لعرض هذه الصفحة");
+    window.location.href = "login.html";
+    return;
+  }
+  loadProducts();
+});
+</script>
+</body>
+</html>

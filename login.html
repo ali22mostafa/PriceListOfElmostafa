@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - شركة المصطفى</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .logo {
+      display: block;
+      margin: 10px auto;
+      max-width: 220px;
+      border-radius: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    h1 {
+      color: yellow;
+      text-align: center;
+    }
+    .login-form {
+      background-color: #222;
+      border: 1px solid yellow;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: yellow;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #333;
+      color: white;
+    }
+    .submit-btn {
+      background-color: yellow;
+      color: black;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .back-btn {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/zz.jpg" alt="شعار الشركة" class="logo" />
+   
+  </header>
+
+  <div class="container">
+    <h1>تسجيل الدخول</h1>
+    
+    <div class="login-form">
+      <form id="login-form">
+        <div class="form-group">
+          <label for="phone">رقم الهاتف*</label>
+          <input type="tel" id="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="password">كلمة المرور*</label>
+          <input type="password" id="password" required>
+        </div>
+        <div id="error-message" class="error"></div>
+        <button type="submit" class="submit-btn">تسجيل الدخول</button>
+        <button type="button" class="back-btn" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    // تكوين Firebase
+    const firebaseConfig = {
+  apiKey: "AIzaSyCR_9LTEVlFMnYhGT5JaqR2hG2lu06D9Ow",
+  authDomain: "pricelistofelmostafa.firebaseapp.com",
+  projectId: "pricelistofelmostafa",
+  storageBucket: "pricelistofelmostafa.firebasestorage.app",
+  messagingSenderId: "39463931277",
+  appId: "1:39463931277:web:02cc42fc88508696b501c4"
+};
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // تسجيل الدخول
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const phone = document.getElementById('phone').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      try {
+        const querySnapshot = await db.collection('users')
+          .where('phone', '==', phone)
+          .where('password', '==', password)
+          .get();
+        
+        if (querySnapshot.empty) {
+          document.getElementById('error-message').textContent = 'رقم الهاتف أو كلمة المرور غير صحيحة';
+          return;
+        }
+        
+        const user = querySnapshot.docs[0].data();
+        user.id = querySnapshot.docs[0].id;
+        
+        // حفظ بيانات المستخدم في localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        // توجيه المستخدم إلى الصفحة الرئيسية
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Error logging in:', error);
+        document.getElementById('error-message').textContent = 'حدث خطأ أثناء تسجيل الدخول';
+      }
+    });
+  </script>
+</body>
+</html>
