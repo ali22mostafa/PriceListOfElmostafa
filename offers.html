@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>📢 العروض الخاصة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f4f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    #search {
+      display: block;
+      margin: 0 auto 30px;
+      max-width: 400px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #offers {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .offer-box {
+      background: linear-gradient(145deg, #ffffff, #f1f3f5);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.07);
+      text-align: center;
+      animation: floatIn 0.6s ease both;
+      transition: transform 0.3s;
+    }
+
+    .offer-box:hover {
+      transform: translateY(-6px) scale(1.03);
+    }
+
+    .offer-box h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #111;
+    }
+
+    .offer-box p {
+      margin: 0;
+      font-size: 16px;
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    @keyframes floatIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .offer-box h3 { font-size: 16px; }
+      .offer-box p { font-size: 14px; }
+    }
+  </style>
+  <style>
+  .back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #0d47a1;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background-color: #1565c0;
+  }
+</style>
+
+</head>
+<body>
+    <a href="index.html" class="back-btn">← رجوع</a>
+  <h1>🎉 العروض الخاصة</h1>
+  <input type="text" id="search" placeholder="🔍 ابحث باسم العرض..." />
+  <div id="offers">جارٍ التحميل...</div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyCR_9LTEVlFMnYhGT5JaqR2hG2lu06D9Ow",
+  authDomain: "pricelistofelmostafa.firebaseapp.com",
+  projectId: "pricelistofelmostafa",
+  storageBucket: "pricelistofelmostafa.firebasestorage.app",
+  messagingSenderId: "39463931277",
+  appId: "1:39463931277:web:02cc42fc88508696b501c4"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const offersDiv = document.getElementById("offers");
+    const searchInput = document.getElementById("search");
+
+    let allOffers = [];
+
+    function renderOffers(offers) {
+      offersDiv.innerHTML = "";
+      if (!offers.length) {
+        offersDiv.innerHTML = "<p style='text-align:center;'>❌ لا توجد  عروض متوفره.</p>";
+        return;
+      }
+
+      offers.forEach((offer, index) => {
+        const box = document.createElement("div");
+        box.className = "offer-box";
+        box.style.animationDelay = `${index * 0.05}s`;
+        box.innerHTML = `
+          <h3>${offer.name}</h3>
+          <p>💸 السعر: ${offer.price} جنيه</p>
+        `;
+        offersDiv.appendChild(box);
+      });
+    }
+
+    // التحديث اللحظي
+    db.collection("offers").onSnapshot(snapshot => {
+      allOffers = [];
+      snapshot.forEach(doc => {
+        allOffers.push({ id: doc.id, ...doc.data() });
+      });
+      renderOffers(allOffers);
+    });
+
+    // فلترة حسب البحث
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.trim().toLowerCase();
+      if (query === "") {
+        renderOffers(allOffers);
+      } else {
+        const filtered = allOffers.filter(offer => offer.name?.toLowerCase().includes(query));
+        renderOffers(filtered);
+      }
+    });
+  </script>
+</body>
+</html>
